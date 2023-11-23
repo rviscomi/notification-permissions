@@ -1,4 +1,4 @@
-export default data = {
+const data = {
   "https://19216811.uno": [
     [9, 28, 7, 56],
     [8, 27, 7, 58],
@@ -35376,3 +35376,5 @@ export default data = {
     [2, 10, 3, 85],
   ],
 };
+
+export default data;
