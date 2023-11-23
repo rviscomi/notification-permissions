@@ -1,4 +1,4 @@
-import data from "./data";
+import data from "./data.js";
 
 const selectedOrigin = document.getElementById("selected-origin");
 const originList = document.getElementById("origins");
