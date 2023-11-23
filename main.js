@@ -1,24 +1,42 @@
 import data from "./data.js";
 
+const defaultOrigin = "https://app.slack.com";
 const selectedOrigin = document.getElementById("selected-origin");
 const randomizeOrigin = document.getElementById("randomize");
 const originList = document.getElementById("origins");
 const results = Object.entries(data);
 let permissionsChart;
 
-results.forEach(([origin]) => {
-  const option = document.createElement("option");
-  option.value = origin;
-  option.text = origin;
-  originList.appendChild(option);
-});
+function init() {
+  populateOriginList();
+  const origin = getOrigin();
+  setOrigin(origin);
+}
 
-const url = new URL(window.location);
-const origin = url.searchParams.get("origin") || "https://app.slack.com";
-setOrigin(origin);
+function populateOriginList() {
+  results.forEach(([origin]) => {
+    const option = document.createElement("option");
+    option.value = origin;
+    option.text = origin;
+    originList.appendChild(option);
+  });
+}
+
+function getOrigin() {
+  const url = new URL(window.location);
+
+  if (!url.searchParams.has("origin")) {
+    replaceState(defaultOrigin);
+    return defaultOrigin;
+  }
+
+  return url.searchParams.get("origin");
+}
 
 selectedOrigin.addEventListener("change", (event) => {
   const origin = event.target.value;
+
+  pushState(origin);
   setOrigin(origin);
 });
 
@@ -27,13 +45,14 @@ randomizeOrigin.addEventListener("click", () => {
   do {
     randomOrigin = results[Math.floor(Math.random() * results.length)][0];
   } while (randomOrigin == selectedOrigin.value);
+
+  pushState(randomOrigin);
   setOrigin(randomOrigin);
 });
 
 function setOrigin(origin) {
   const originData = data[origin];
   selectedOrigin.value = origin;
-  replaceState(origin);
 
   if (permissionsChart) {
     originData.forEach((data, index) => {
@@ -157,7 +176,25 @@ function indexToMonth(index) {
 }
 
 function replaceState(origin) {
+  console.log("replaceState", origin);
   const url = new URL(window.location);
   url.searchParams.set("origin", origin);
-  window.history.replaceState({}, "", url);
+  window.history.replaceState({ origin }, "", url);
 }
+
+function pushState(origin) {
+  console.log("pushState", origin);
+  const url = new URL(window.location);
+  url.searchParams.set("origin", origin);
+  window.history.pushState({ origin }, "", url);
+}
+
+// Listen for history changes and update the chart
+window.addEventListener("popstate", (e) => {
+  console.log("popState", e);
+  const url = new URL(window.location);
+  const origin = url.searchParams.get("origin") || defaultOrigin;
+  setOrigin(origin);
+});
+
+init();
