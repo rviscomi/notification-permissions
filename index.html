@@ -4,14 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notification Permissions</title>
-  <link rel="stylesheet" href="style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ5LJ72RHB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WJ5LJ72RHB');
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
-  <input id="selected-origin" list="origins" placeholder="Search for an origin">
-  <datalist id="origins"></datalist>
+  <div id="search">
+    <input id="selected-origin" list="origins" placeholder="Search for an origin">
+    <button id="randomize" title="Choose a random origin">🎁</button>
+  </div>
 
   <canvas id="myChart"></canvas>
+
+  <p>Note: Chrome sometimes <a href="https://blog.chromium.org/2020/01/introducing-quieter-permission-ui-for.html">changes the default behavior</a> of notification permission prompts.</p>
+
+  <datalist id="origins"></datalist>
 
   <script type="module" src="main.js"></script>
 </body>

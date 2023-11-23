@@ -1,6 +1,7 @@
 import data from "./data.js";
 
 const selectedOrigin = document.getElementById("selected-origin");
+const randomizeOrigin = document.getElementById("randomize");
 const originList = document.getElementById("origins");
 const results = Object.entries(data);
 let permissionsChart;
@@ -19,6 +20,14 @@ setOrigin(origin);
 selectedOrigin.addEventListener("change", (event) => {
   const origin = event.target.value;
   setOrigin(origin);
+});
+
+randomizeOrigin.addEventListener("click", () => {
+  let randomOrigin;
+  do {
+    randomOrigin = results[Math.floor(Math.random() * results.length)][0];
+  } while (randomOrigin == selectedOrigin.value);
+  setOrigin(randomOrigin);
 });
 
 function setOrigin(origin) {
@@ -55,7 +64,7 @@ function setOrigin(origin) {
     {
       label: "Accept",
       data: accept,
-      backgroundColor: "rgba(0, 128, 0, 1)", // Green
+      backgroundColor: "rgba(52, 168, 83, 1)", // Green
       fill: true,
       pointRadius: 0,
       pointHitRadius: 10,
@@ -64,7 +73,7 @@ function setOrigin(origin) {
     {
       label: "Dismiss",
       data: dismiss,
-      backgroundColor: "rgba(255, 165, 0, 1)", // Orange
+      backgroundColor: "rgba(251, 188, 4, 1)", // Orange
       fill: true,
       pointRadius: 0,
       pointHitRadius: 10,
@@ -73,7 +82,7 @@ function setOrigin(origin) {
     {
       label: "Deny",
       data: deny,
-      backgroundColor: "rgba(255, 0, 0, 1)", // Red
+      backgroundColor: "rgba(234, 67, 53, 1)", // Red
       fill: true,
       pointRadius: 0,
       pointHitRadius: 10,
@@ -82,7 +91,7 @@ function setOrigin(origin) {
     {
       label: "Ignore",
       data: ignore,
-      backgroundColor: "rgba(128, 128, 128, 1)", // Gray
+      backgroundColor: "rgba(67, 67, 67, 1)", // Gray
       fill: true,
       pointRadius: 0,
       pointHitRadius: 10,
